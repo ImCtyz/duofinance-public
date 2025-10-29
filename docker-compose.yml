@@ -17,8 +17,6 @@ services:
 
   migrate:
     image: migrate/migrate:latest
-    environment:
-      MIGRATIONS_DSN: postgres://duofinance:duofinance@db:5432/duofinance?sslmode=disable
     depends_on:
       db:
         condition: service_healthy
@@ -26,7 +24,7 @@ services:
       - ./backend/migrations:/migrations:ro
     entrypoint: [
       "sh","-c",
-      "migrate -path=/migrations -database '$MIGRATIONS_DSN' up || true"
+      "migrate -path=/migrations -database 'postgres://duofinance:duofinance@db:5432/duofinance?sslmode=disable' up || true"
     ]
 
   backend:
